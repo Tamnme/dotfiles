@@ -1,2 +1,6 @@
 # lock
 flake.lock
+#
+.DS_Store
+# Result
+result

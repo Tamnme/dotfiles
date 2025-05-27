@@ -28,4 +28,8 @@ nix run nix-darwin -- switch --flake ~/.config/nix-darwin#zen8
 darwin-rebuild build --flake ~/.config/nix-darwin#zen8
 ```
 
-### NOTE
+### Common Error
+1. Unknown command: brew bundle
+```bash
+nix flake update
+```

@@ -19,11 +19,16 @@
 				pkgs.mkalias
 				pkgs.tmux
       ];
-
+    homebrew.taps = [
+      "gofireflyio/aiac"
+      "spinframework/tap"
+      "FelixKratz/formulae"
+    ];
 		homebrew = {
 			enable = true;
 			brews = [
    			# Tools
+   			"borders"  	
         "yazi"
    			"tree"
    			"fish"
@@ -35,25 +40,31 @@
    			"go"
    			"chezmoi"
    			"docker-slim"
-        "topgrade"  
+        "topgrade"
+        "tabbyml/tabby/tabby"
   			# DevOps
+  			"aiac"
    			"pulumi"
    			"opentofu"
    			"terraform"
    			"terragrunt"
    			"localstack"
    			"helm"
+        "telnet"
+        "krew"
    			"kubectl"
    			"kdash-rs/kdash/kdash"
    			"k9s"
-   			"kind"
+        "kind"
    			"kubecolor"
    			"kubie"
         "cilium-cli"
    			"trivy"
+        "argocd"
    			"awscli"
    			"awscli-local"
    			"aws-sam-cli"
+        "spinframework/tap/spin"
    			# ZSH
    			"zsh"
    			"zsh-syntax-highlighting"
@@ -62,21 +73,26 @@
    			"starship"
 			];
 			casks = [
+        "flowvision"
+        "hot"
         "only-switch"
         "pearcleaner"
 				"music-decoy"
 				"iina"
-				"the-unarchiver"
-				"orbstack"
-				"ghostty"
-				"warp"
-				"bruno"
+				"keka"
 				"telegram"
+        #DevTool
+        "postman"
+        "orbstack"
+        "ghostty"
+        "tabby"
+        "warp"
 				"aws-vault"
 				"secretive"
 				"flox"
 				"zed"
         "docker"
+        "github"
 			];
 			onActivation = {
 				autoUpdate = false;
