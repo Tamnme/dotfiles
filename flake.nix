@@ -27,6 +27,8 @@
 		homebrew = {
 			enable = true;
 			brews = [
+        # Language
+        "node"
    			# Tools
    			"borders"  	
         "yazi"
@@ -73,6 +75,8 @@
    			"starship"
 			];
 			casks = [
+        "localsend"
+        "readest"
         "flowvision"
         "hot"
         "only-switch"
@@ -84,12 +88,11 @@
         #DevTool
         "postman"
         "orbstack"
-        "ghostty"
+        #"ghostty"
         "tabby"
         "warp"
 				"aws-vault"
 				"secretive"
-				"flox"
 				"zed"
         "docker"
         "github"
