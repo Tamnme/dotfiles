@@ -19,7 +19,7 @@ sed -i '' "s/hostname/$(scutil --get LocalHostName)/" flake.nix
 nix run nix-darwin/nix-darwin-24.11#darwin-rebuild -- switch
 ```
 ### How to
-- Innit
+- Init
 ```bash
 nix run nix-darwin -- switch --flake ~/.config/nix-darwin#zen8
 ```
@@ -33,3 +33,6 @@ darwin-rebuild build --flake ~/.config/nix-darwin#zen8
 ```bash
 nix flake update
 ```
+2. One day you wake up and then encounter `nix not found`. What to do:
+Step 1: Restart your terminal
+Step 2: Reinstall Nix

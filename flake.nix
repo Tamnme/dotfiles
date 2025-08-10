@@ -11,6 +11,10 @@
   outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew }:
   let
     configuration = { pkgs, ... }: {
+			nix = {
+				enable = false;
+				# ... other nix options if any ...
+			};
       nixpkgs.config.allowUnfree = true;
       # nix.configureBuildUsers = true; # Configure new nixbld User for MacOS Sequoia
       # List packages installed in system profile. To search by name, run:
@@ -23,14 +27,15 @@
       "gofireflyio/aiac"
       "spinframework/tap"
       "FelixKratz/formulae"
+      "hashicorp/tap"
     ];
 		homebrew = {
 			enable = true;
 			brews = [
         # Language
-        "node"
+
    			# Tools
-   			"borders"  	
+   			"borders"
         "yazi"
    			"tree"
    			"fish"
@@ -45,10 +50,11 @@
         "topgrade"
         "tabbyml/tabby/tabby"
   			# DevOps
+				"hl"
   			"aiac"
    			"pulumi"
    			"opentofu"
-   			"terraform"
+   			"hashicorp/tap/terraform"
    			"terragrunt"
    			"localstack"
    			"helm"
@@ -76,7 +82,6 @@
 			];
 			casks = [
         "localsend"
-        "readest"
         "flowvision"
         "hot"
         "only-switch"
@@ -85,6 +90,7 @@
 				"iina"
 				"keka"
 				"telegram"
+        "malwarebytes"
         #DevTool
         "postman"
         "orbstack"
@@ -94,8 +100,6 @@
 				"aws-vault"
 				"secretive"
 				"zed"
-        "docker"
-        "github"
 			];
 			onActivation = {
 				autoUpdate = false;
@@ -128,7 +132,7 @@
   in
   {
     # Build darwin flake using:
-    # $ darwin-rebuild build --flake .#apples-MacBook-Pro-2
+    # $ darwin-rebuild build --flake .#<your-pc-name>
     darwinConfigurations."zen8" = nix-darwin.lib.darwinSystem {
       modules = [
       	configuration
