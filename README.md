@@ -36,3 +36,9 @@ nix flake update
 2. One day you wake up and then encounter `nix not found`. What to do:
 Step 1: Restart your terminal
 Step 2: Reinstall Nix
+
+3. `cannot connect to socket at '/nix/var/nix/daemon-socket/socket': Connection refused`
+run this command
+```
+sudo launchctl bootstrap system /Library/LaunchDaemons/systems.determinate.nix-daemon.plist
+```

@@ -33,8 +33,14 @@
 			enable = true;
 			brews = [
         # Language
-
+        "rustup"
+        "pipx"
    			# Tools
+   			"nushell"
+   			"openvpn"
+   			"thefuck"
+        "ripgrep"
+        "zoxide"
    			"borders"
         "yazi"
    			"tree"
@@ -49,11 +55,13 @@
    			"docker-slim"
         "topgrade"
         "tabbyml/tabby/tabby"
+        "sops"
   			# DevOps
 				"hl"
   			"aiac"
    			"pulumi"
-   			"opentofu"
+   			"eksctl"
+   			#"opentofu"
    			"hashicorp/tap/terraform"
    			"terragrunt"
    			"localstack"
@@ -66,6 +74,7 @@
         "kind"
    			"kubecolor"
    			"kubie"
+   			"vcluster"
         "cilium-cli"
    			"trivy"
         "argocd"
@@ -79,8 +88,15 @@
    			"zsh-autocomplete"
    			"zsh-autosuggestions"
    			"starship"
+   			# AI
+   			"gemini-cli"
+   			# Learning
+   			"exercism"
 			];
 			casks = [
+			  # AI
+			  "claude-code"
+			  "openinterminal"
         "localsend"
         "flowvision"
         "hot"
@@ -90,16 +106,19 @@
 				"iina"
 				"keka"
 				"telegram"
-        "malwarebytes"
+        "obs"
         #DevTool
+        #"termius"
         "postman"
         "orbstack"
         #"ghostty"
-        "tabby"
+        #"orion"
+        "tunnelblick"
         "warp"
 				"aws-vault"
 				"secretive"
 				"zed"
+				#"TheBoredTeam/boring-notch/boring-notch"
 			];
 			onActivation = {
 				autoUpdate = false;
@@ -121,8 +140,7 @@
 
 		# Set Git commit hash for darwin-version.
 		system.configurationRevision = self.rev or self.dirtyRev or null;
-
-		# Used for backwards compatibility, please read the changelog before changing.
+	 	# Used for backwards compatibility, please read the changelog before changing.
 		# $ darwin-rebuild changelog
 		system.stateVersion = 5;
 
