@@ -10,23 +10,31 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 - Setup
 ```bash
 mkdir -p ~/.config/nix-darwin
-mv flake.nix ~/.config/nix-darwin
+cp flake.nix ~/.config/nix-darwin/
 cd ~/.config/nix-darwin
-sed -i '' "s/hostname/$(scutil --get LocalHostName)/" flake.nix
 ```
 - Install
 ```bash
-nix run nix-darwin/nix-darwin-24.11#darwin-rebuild -- switch
+# The configuration now auto-detects your hostname and user.
+# The --impure flag is required for environment variable detection.
+nix run nix-darwin -- switch --flake . --impure
 ```
+
 ### How to
-- Init
+- Rebuild / Switch
 ```bash
-nix run nix-darwin -- switch --flake ~/.config/nix-darwin#zen8
+darwin-rebuild switch --flake . --impure
 ```
-- Rebuild
+- Manual Override (if auto-detect fails or for specific host)
 ```bash
-darwin-rebuild build --flake ~/.config/nix-darwin#zen8
+darwin-rebuild switch --flake .#MT --impure
 ```
+
+### Note on Dynamic Configuration
+The `flake.nix` now uses:
+- `HOSTNAME` environment variable for the machine name (falls back to `MT`).
+- `SUDO_USER` or `USER` environment variable for the primary user (falls back to `tamnm`).
+Use the `--impure` flag with `nix` commands to enable this detection.
 
 ### Common Error
 1. Unknown command: brew bundle
