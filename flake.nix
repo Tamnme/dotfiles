@@ -22,20 +22,29 @@
       environment.systemPackages = [
 				pkgs.mkalias
 				pkgs.tmux
+				pkgs.devenv
       ];
     homebrew.taps = [
       "gofireflyio/aiac"
       "spinframework/tap"
       "FelixKratz/formulae"
       "hashicorp/tap"
+      "hidetatz/tap"
+      "MadAppGang/tap" #Claudish
     ];
 		homebrew = {
 			enable = true;
 			brews = [
-        # Language
+        ## Language
+        "python"
         "rustup"
         "pipx"
-   			# Tools
+        ## Application
+        #"pear-devs/pear/pear-desktop"
+   			## Tools
+   			"docker-slim"
+   			"btop"
+        "mise"
    			"nushell"
    			"openvpn"
    			"thefuck"
@@ -54,50 +63,56 @@
    			"chezmoi"
    			"docker-slim"
         "topgrade"
-        "tabbyml/tabby/tabby"
         "sops"
-  			# DevOps
-				"hl"
+        "devcontainer"
+        "pandoc"
+  			## DevOps
+        "ansible"
+     		"hl"
   			"aiac"
-   			"pulumi"
-   			"eksctl"
-   			#"opentofu"
+   			#"eksctl"
+   			"hashicorp/tap/packer"
+   			"opentofu"
    			"hashicorp/tap/terraform"
    			"terragrunt"
-   			"localstack"
+   			#"localstack"
    			"helm"
         "telnet"
         "krew"
    			"kubectl"
+        "kubecolor"
    			"kdash-rs/kdash/kdash"
    			"k9s"
         "kind"
    			"kubecolor"
    			"kubie"
-   			"vcluster"
+   			#"vcluster"
         "cilium-cli"
    			"trivy"
         "argocd"
    			"awscli"
-   			"awscli-local"
+   			#"awscli-local"
    			"aws-sam-cli"
         "spinframework/tap/spin"
-   			# ZSH
+   			## ZSH
    			"zsh"
    			"zsh-syntax-highlighting"
    			"zsh-autocomplete"
    			"zsh-autosuggestions"
    			"starship"
-   			# AI
+   			## AI
+   			"claudish"
    			"gemini-cli"
-   			# Learning
+   			## Learning
    			"exercism"
 			];
 			casks = [
-			  # AI
+			  ## AI
 			  "claude-code"
-			  "openinterminal"
-        "localsend"
+			  ## Apps
+			  #"xkey" temporary got error with brew
+        "flashspace"
+				"openinterminal"
         "flowvision"
         "hot"
         "only-switch"
@@ -105,24 +120,22 @@
 				"music-decoy"
 				"iina"
 				"keka"
-				"telegram"
-        "obs"
-        #DevTool
+				"middledrag"
+        ## DevTool
         #"termius"
-        "postman"
+        #"postman"
         "orbstack"
-        #"ghostty"
-        #"orion"
+        "ghostty@tip"
         "tunnelblick"
         "warp"
-				"aws-vault"
+				"aws-vault-binary"
 				"secretive"
 				"zed"
 				#"TheBoredTeam/boring-notch/boring-notch"
 			];
 			onActivation = {
 				autoUpdate = false;
-				cleanup = "zap";
+				cleanup = "uninstall";
 				upgrade = false;
 			};
 		};
@@ -132,7 +145,7 @@
 			pkgs.nerd-fonts.fira-code
 		];
 		# Necessary for using flakes on this system.
-		nix.settings.experimental-features = "nix-command flakes";
+		nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 		# Enable alternative shell support in nix-darwin.
 		programs.zsh.enable = true;
@@ -140,6 +153,7 @@
 
 		# Set Git commit hash for darwin-version.
 		system.configurationRevision = self.rev or self.dirtyRev or null;
+		system.primaryUser = "tamnm";
 	 	# Used for backwards compatibility, please read the changelog before changing.
 		# $ darwin-rebuild changelog
 		system.stateVersion = 5;
@@ -150,15 +164,15 @@
   in
   {
     # Build darwin flake using:
-    # $ darwin-rebuild build --flake .#<your-pc-name>
-    darwinConfigurations."zen8" = nix-darwin.lib.darwinSystem {
+    # $ darwin-rebuild build --flake .#MT
+    darwinConfigurations."MT" = nix-darwin.lib.darwinSystem {
       modules = [
       	configuration
      		nix-homebrew.darwinModules.nix-homebrew {
          nix-homebrew = {
          		enable = true;
     				enableRosetta = true;
-    				user = "apple";
+    				user = "tamnm";
     				autoMigrate = true;
          };
      		}
