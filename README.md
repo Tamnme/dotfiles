@@ -23,6 +23,10 @@ nix run nix-darwin -- switch --flake . --impure
 ```bash
 darwin-rebuild switch --flake . --impure
 ```
+- For new machines (auto-detect hostname)
+```bash
+HOSTNAME=$(hostname -s) sudo -E nix run nix-darwin -- switch --flake . --impure
+```
 - Manual Override (if auto-detect fails or for specific host)
 ```bash
 darwin-rebuild switch --flake .#MT --impure
