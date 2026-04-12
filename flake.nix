@@ -10,6 +10,13 @@
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew }:
   let
+    currentUser = let
+      sudoUser = builtins.getEnv "SUDO_USER";
+      envUser = builtins.getEnv "USER";
+    in if sudoUser != "" then sudoUser
+       else if envUser != "" && envUser != "root" then envUser
+       else "tamnm";
+
     configuration = { pkgs, ... }: {
 			nix = {
 				enable = false;
@@ -34,6 +41,7 @@
     ];
 		homebrew = {
 			enable = true;
+			user = currentUser;
 			brews = [
         ## Language
         "python"
@@ -153,7 +161,7 @@
 
 		# Set Git commit hash for darwin-version.
 		system.configurationRevision = self.rev or self.dirtyRev or null;
-		system.primaryUser = "tamnm";
+		system.primaryUser = currentUser;
 	 	# Used for backwards compatibility, please read the changelog before changing.
 		# $ darwin-rebuild changelog
 		system.stateVersion = 5;
@@ -161,22 +169,36 @@
 		# The platform the configuration will be used on.
 		nixpkgs.hostPlatform = "aarch64-darwin";
   };
+  
+  mkDarwinConfig = hostname: nix-darwin.lib.darwinSystem {
+    modules = [
+      configuration
+      { networking.hostName = hostname; }
+      nix-homebrew.darwinModules.nix-homebrew {
+        nix-homebrew = {
+          enable = true;
+          enableRosetta = true;
+          user = currentUser;
+          autoMigrate = true;
+        };
+      }
+    ];
+  };
+
+  # Auto-detect hostname or fallback to MT
+  # To use auto-detection, run with: darwin-rebuild switch --flake . --impure
+  currentHostname = let
+    envHostname = builtins.getEnv "HOSTNAME";
+  in if envHostname != "" then envHostname else "MT";
+
   in
   {
-    # Build darwin flake using:
-    # $ darwin-rebuild build --flake .#MT
-    darwinConfigurations."MT" = nix-darwin.lib.darwinSystem {
-      modules = [
-      	configuration
-     		nix-homebrew.darwinModules.nix-homebrew {
-         nix-homebrew = {
-         		enable = true;
-    				enableRosetta = true;
-    				user = "tamnm";
-    				autoMigrate = true;
-         };
-     		}
-      ];
-    };
+    darwinConfigurations = {
+      # Fallback/Legacy name
+      "MT" = mkDarwinConfig "MT";
+    } // (if currentHostname != "MT" then {
+      # Auto-detected configuration
+      "${currentHostname}" = mkDarwinConfig currentHostname;
+    } else {});
   };
 }
