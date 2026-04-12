@@ -78,7 +78,7 @@
         "ansible"
      		"hl"
   			"aiac"
-   			#"eksctl"
+   			"eksctl"
    			"hashicorp/tap/packer"
    			"opentofu"
    			"hashicorp/tap/terraform"
@@ -139,7 +139,6 @@
 				"aws-vault-binary"
 				"secretive"
 				"zed"
-				#"TheBoredTeam/boring-notch/boring-notch"
 			];
 			onActivation = {
 				autoUpdate = false;
@@ -169,7 +168,7 @@
 		# The platform the configuration will be used on.
 		nixpkgs.hostPlatform = "aarch64-darwin";
   };
-  
+
   mkDarwinConfig = hostname: nix-darwin.lib.darwinSystem {
     modules = [
       configuration

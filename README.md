@@ -7,11 +7,9 @@ My MacOS initial setup and dotfiles configuration
 curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install macos
 ```
 2. [Install Nix darwin](https://github.com/LnL7/nix-darwin)
-- Setup
-```bash
-mkdir -p ~/.config/nix-darwin
-cp flake.nix ~/.config/nix-darwin/
-cd ~/.config/nix-darwin
+Enter `dotfiles` folder
+```
+cd dotfiles
 ```
 - Install
 ```bash
