@@ -6,9 +6,17 @@
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+    nix-homebrew.inputs.brew-src.follows = "brew-src";
+    # Homebrew 5.1.7 introduced a regression crashing on certain casks (e.g., iina, zed)
+    # with "undefined method 'to_sym' for nil". Pinning to 5.1.10 fixes this.
+    # See: https://github.com/Homebrew/brew/issues/17156 (or similar regressions)
+    brew-src = {
+      url = "github:Homebrew/brew/5.1.10";
+      flake = false;
+    };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew, brew-src }:
   let
     currentUser = let
       sudoUser = builtins.getEnv "SUDO_USER";
@@ -49,19 +57,25 @@
         "pipx"
         ## Application
         #"pear-devs/pear/pear-desktop"
-   			## Tools
-   			"docker-slim"
-   			"btop"
-        "mise"
-   			"nushell"
-   			"openvpn"
-   			"thefuck"
-        "ripgrep"
+        ## Fish
+        "fish"
+        "zellij"
+        "starship"
         "zoxide"
+        "eza"
+        "fzf"
    			"borders"
         "yazi"
    			"tree"
-   			"fish"
+        "fastfetch"
+        "bat"
+        "fd"
+        "neovim"
+        ## Tools
+   			"docker-slim"
+        "mise"
+   			"openvpn"
+        "ripgrep"
    			"atuin"
    			"jq"
    			"yq"
@@ -107,10 +121,10 @@
    			"zsh-syntax-highlighting"
    			"zsh-autocomplete"
    			"zsh-autosuggestions"
-   			"starship"
    			## AI
    			"claudish"
    			"gemini-cli"
+        "rtk"
    			## Learning
    			"exercism"
 			];

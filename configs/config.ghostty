@@ -1,0 +1,21 @@
+shell-integration = fish
+command = /opt/homebrew/bin/zellij
+
+macos-titlebar-style = transparent
+
+# Unbind CMD+... keys so they will be forwarded to Zellij
+keybind = cmd+t=unbind
+keybind = cmd+n=unbind
+keybind = cmd+c=unbind
+keybind = cmd+w=unbind
+keybind = cmd+left=unbind
+keybind = cmd+right=unbind
+keybind = cmd+up=unbind
+keybind = cmd+down=unbind
+keybind = cmd+shift+left=unbind
+keybind = cmd+shift+right=unbind
+keybind = opt+tab=unbind
+
+# Enable Option key as Alt for keybindings
+# Use 'left' so right Option key can still type special characters
+macos-option-as-alt = left
