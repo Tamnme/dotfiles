@@ -19,17 +19,19 @@ nix run nix-darwin -- switch --flake . --impure
 ```
 
 ### How to
+> Recent nix-darwin requires root for activation. Use `sudo -E` to preserve env vars (`HOSTNAME`, `USER`).
+
 - Rebuild / Switch
 ```bash
-darwin-rebuild switch --flake . --impure
+HOSTNAME=$(hostname -s) sudo -E darwin-rebuild switch --flake . --impure
 ```
-- For new machines (auto-detect hostname)
+- For new machines (auto-detect hostname, before darwin-rebuild installed)
 ```bash
 HOSTNAME=$(hostname -s) sudo -E nix run nix-darwin -- switch --flake . --impure
 ```
 - Manual Override (if auto-detect fails or for specific host)
 ```bash
-darwin-rebuild switch --flake .#MT --impure
+sudo -E darwin-rebuild switch --flake .#MT --impure
 ```
 
 ### Note on Dynamic Configuration
@@ -37,6 +39,28 @@ The `flake.nix` now uses:
 - `HOSTNAME` environment variable for the machine name (falls back to `MT`).
 - `SUDO_USER` or `USER` environment variable for the primary user (falls back to `tamnm`).
 Use the `--impure` flag with `nix` commands to enable this detection.
+
+### Repo Layout
+- `flake.nix` — inputs, host wiring
+- `modules/system.nix` — nix settings, fonts, shells, stateVersion
+- `modules/packages.nix` — system Nix packages (`environment.systemPackages`)
+- `modules/homebrew-base.nix` — shared taps, brews, casks (all machines)
+- `hosts/<hostname>.nix` — per-machine overrides (extra brews/casks). Falls back to `hosts/default.nix` if no match.
+
+### Adding a new machine
+1. Clone repo, install Nix + nix-darwin (see Requirements above).
+2. (Optional) Create `hosts/$(hostname -s).nix` with machine-specific extras, e.g.:
+   ```nix
+   { ... }:
+   {
+     homebrew.brews = [ "extra-tool" ];
+     homebrew.casks = [ "work-only-app" ];
+   }
+   ```
+3. Run:
+   ```bash
+   HOSTNAME=$(hostname -s) darwin-rebuild switch --flake . --impure
+   ```
 
 ### Fish Shell Setup
 After `darwin-rebuild switch` installs fish via Homebrew, finish the per-user setup:
@@ -96,6 +120,13 @@ mkdir -p ~/.config/zellij
 ln -sf "$PWD/configs/zellij.config.kdl" ~/.config/zellij/config.kdl
 ```
 Restart Zellij or detach all sessions for changes to apply.
+
+### Neovim Setup
+```bash
+mkdir -p ~/.config/nvim
+ln -sf "$PWD/configs/nvim.init.lua" ~/.config/nvim/init.lua
+```
+Sets `clipboard=unnamedplus` — visual-select then `y` puts text in macOS clipboard (Cmd+V elsewhere).
 
 ### Common Errors
 1. Unknown command: brew bundle

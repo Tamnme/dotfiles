@@ -6,7 +6,6 @@ macos-titlebar-style = transparent
 # Unbind CMD+... keys so they will be forwarded to Zellij
 keybind = cmd+t=unbind
 keybind = cmd+n=unbind
-keybind = cmd+c=unbind
 keybind = cmd+w=unbind
 keybind = cmd+left=unbind
 keybind = cmd+right=unbind
@@ -15,6 +14,11 @@ keybind = cmd+down=unbind
 keybind = cmd+shift+left=unbind
 keybind = cmd+shift+right=unbind
 keybind = opt+tab=unbind
+
+# Option+Arrow → send Alt+Arrow CSI (not bash word-jump esc) so zellij
+# doesn't misread \ef as Alt+f (ToggleFloatingPanes). Fish binds \e[1;3D/C.
+keybind = alt+left=csi:1;3D
+keybind = alt+right=csi:1;3C
 
 # Enable Option key as Alt for keybindings
 # Use 'left' so right Option key can still type special characters

@@ -1,5 +1,12 @@
 set -gx SHELL /opt/homebrew/bin/fish
 
+##-------- Nix / nix-darwin PATH
+# nix-darwin installs darwin-rebuild under /run/current-system/sw/bin.
+# Nix daemon profile lives under /nix/var/nix/profiles/default/bin.
+for p in /run/current-system/sw/bin /nix/var/nix/profiles/default/bin
+    test -d $p; and fish_add_path -gp $p
+end
+
 ##--------- Greeting
 if status is-interactive
     # Commands to run in interactive sessions can go here
@@ -75,6 +82,12 @@ function fzf_edit --description "Pick file with fzf, open in \$EDITOR"
 end
 
 bind \ce fzf_edit
+
+##-------- Option+Left/Right → word jump (zellij passes Alt+Arrow through)
+bind \e\[1\;3D backward-word
+bind \e\[1\;3C forward-word
+bind \eb backward-word
+bind \ef forward-word
 
 ##-------- Color scheme (requires h-matsuo/fish-color-scheme-switcher)
 scheme set catppuccin

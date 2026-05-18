@@ -1,5 +1,5 @@
 {
-  description = "MacOs nix-darwin system flake";
+  description = "MacOS nix-darwin system flake";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -7,9 +7,10 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
     nix-homebrew.inputs.brew-src.follows = "brew-src";
-    # Homebrew 5.1.7 introduced a regression crashing on certain casks (e.g., iina, zed)
-    # with "undefined method 'to_sym' for nil". Pinning to 5.1.10 fixes this.
-    # See: https://github.com/Homebrew/brew/issues/17156 (or similar regressions)
+
+    # Homebrew 5.1.7 introduced regression crashing on certain casks (e.g. iina, zed)
+    # with "undefined method 'to_sym' for nil". Pin to 5.1.10.
+    # See: https://github.com/Homebrew/brew/issues/17156
     brew-src = {
       url = "github:Homebrew/brew/5.1.10";
       flake = false;
@@ -18,6 +19,7 @@
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew, brew-src }:
   let
+    # Auto-detect current user (handles sudo). Fallback "tamnm".
     currentUser = let
       sudoUser = builtins.getEnv "SUDO_USER";
       envUser = builtins.getEnv "USER";
@@ -25,192 +27,42 @@
        else if envUser != "" && envUser != "root" then envUser
        else "tamnm";
 
-    configuration = { pkgs, ... }: {
-			nix = {
-				enable = false;
-				# ... other nix options if any ...
-			};
-      nixpkgs.config.allowUnfree = true;
-      # nix.configureBuildUsers = true; # Configure new nixbld User for MacOS Sequoia
-      # List packages installed in system profile. To search by name, run:
-      # $ nix-env -qaP | grep wget
-      environment.systemPackages = [
-				pkgs.mkalias
-				pkgs.tmux
-				pkgs.devenv
+    # Auto-detect hostname. Fallback "MT".
+    # Run: HOSTNAME=$(hostname -s) darwin-rebuild switch --flake . --impure
+    currentHostname = let
+      envHostname = builtins.getEnv "HOSTNAME";
+    in if envHostname != "" then envHostname else "MT";
+
+    # Pick host file or fallback to default.nix for unknown hosts.
+    hostModule = hostname:
+      let path = ./hosts + "/${hostname}.nix";
+      in if builtins.pathExists path then path else ./hosts/default.nix;
+
+    mkDarwinConfig = hostname: nix-darwin.lib.darwinSystem {
+      specialArgs = { inherit currentUser; };
+      modules = [
+        ./modules/system.nix
+        ./modules/packages.nix
+        ./modules/homebrew-base.nix
+        (hostModule hostname)
+        { networking.hostName = hostname; }
+        nix-homebrew.darwinModules.nix-homebrew
+        {
+          nix-homebrew = {
+            enable = true;
+            enableRosetta = true;
+            user = currentUser;
+            autoMigrate = true;
+          };
+        }
       ];
-    homebrew.taps = [
-      "gofireflyio/aiac"
-      "spinframework/tap"
-      "FelixKratz/formulae"
-      "hashicorp/tap"
-      "hidetatz/tap"
-      "MadAppGang/tap" #Claudish
-    ];
-		homebrew = {
-			enable = true;
-			user = currentUser;
-			brews = [
-        ## Language
-        "python"
-        "rustup"
-        "pipx"
-        ## Application
-        #"pear-devs/pear/pear-desktop"
-        ## Fish
-        "fish"
-        "zellij"
-        "starship"
-        "zoxide"
-        "eza"
-        "fzf"
-   			"borders"
-        "yazi"
-   			"tree"
-        "fastfetch"
-        "bat"
-        "fd"
-        "neovim"
-        ## Tools
-   			"docker-slim"
-        "mise"
-   			"openvpn"
-        "ripgrep"
-   			"atuin"
-   			"jq"
-   			"yq"
-   			"neovim"
-   			"helix"
-   			"go"
-   			"chezmoi"
-   			"docker-slim"
-        "topgrade"
-        "sops"
-        "devcontainer"
-        "pandoc"
-  			## DevOps
-        "ansible"
-     		"hl"
-  			"aiac"
-   			"eksctl"
-   			"hashicorp/tap/packer"
-   			"opentofu"
-   			"hashicorp/tap/terraform"
-   			"terragrunt"
-   			#"localstack"
-   			"helm"
-        "telnet"
-        "krew"
-   			"kubectl"
-        "kubecolor"
-   			"kdash-rs/kdash/kdash"
-   			"k9s"
-        "kind"
-   			"kubecolor"
-   			"kubie"
-   			#"vcluster"
-        "cilium-cli"
-   			"trivy"
-        "argocd"
-   			"awscli"
-   			#"awscli-local"
-   			"aws-sam-cli"
-        "spinframework/tap/spin"
-   			## ZSH
-   			"zsh"
-   			"zsh-syntax-highlighting"
-   			"zsh-autocomplete"
-   			"zsh-autosuggestions"
-   			## AI
-   			"claudish"
-   			"gemini-cli"
-        "rtk"
-   			## Learning
-   			"exercism"
-			];
-			casks = [
-			  ## AI
-			  "claude-code"
-			  ## Apps
-			  #"xkey" temporary got error with brew
-        "flashspace"
-				"openinterminal"
-        "flowvision"
-        "hot"
-        "only-switch"
-        "pearcleaner"
-				"music-decoy"
-				"iina"
-				"keka"
-				"middledrag"
-        ## DevTool
-        #"termius"
-        #"postman"
-        "orbstack"
-        "ghostty@tip"
-        "tunnelblick"
-        "warp"
-				"aws-vault-binary"
-				"secretive"
-				"zed"
-			];
-			onActivation = {
-				autoUpdate = false;
-				cleanup = "uninstall";
-				upgrade = false;
-			};
-		};
-
-		fonts.packages = [
-			pkgs.nerd-fonts.fira-mono
-			pkgs.nerd-fonts.fira-code
-		];
-		# Necessary for using flakes on this system.
-		nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-		# Enable alternative shell support in nix-darwin.
-		programs.zsh.enable = true;
-		programs.fish.enable = true;
-
-		# Set Git commit hash for darwin-version.
-		system.configurationRevision = self.rev or self.dirtyRev or null;
-		system.primaryUser = currentUser;
-	 	# Used for backwards compatibility, please read the changelog before changing.
-		# $ darwin-rebuild changelog
-		system.stateVersion = 5;
-
-		# The platform the configuration will be used on.
-		nixpkgs.hostPlatform = "aarch64-darwin";
-  };
-
-  mkDarwinConfig = hostname: nix-darwin.lib.darwinSystem {
-    modules = [
-      configuration
-      { networking.hostName = hostname; }
-      nix-homebrew.darwinModules.nix-homebrew {
-        nix-homebrew = {
-          enable = true;
-          enableRosetta = true;
-          user = currentUser;
-          autoMigrate = true;
-        };
-      }
-    ];
-  };
-
-  # Auto-detect hostname or fallback to MT
-  # To use auto-detection, run with: darwin-rebuild switch --flake . --impure
-  currentHostname = let
-    envHostname = builtins.getEnv "HOSTNAME";
-  in if envHostname != "" then envHostname else "MT";
-
+    };
   in
   {
     darwinConfigurations = {
-      # Fallback/Legacy name
+      # Legacy fallback name.
       "MT" = mkDarwinConfig "MT";
     } // (if currentHostname != "MT" then {
-      # Auto-detected configuration
       "${currentHostname}" = mkDarwinConfig currentHostname;
     } else {});
   };
