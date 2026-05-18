@@ -5,12 +5,11 @@
     user = currentUser;
 
     taps = [
-      "gofireflyio/aiac"
-      "spinframework/tap"
-      "FelixKratz/formulae"
+      "spinframework/tap"	
+      "FelixKratz/formulae"	# borders
       "hashicorp/tap"
-      "hidetatz/tap"
-      "MadAppGang/tap" # Claudish
+      "hidetatz/tap"   		# kubecolor
+      "MadAppGang/tap" 		# Claudish
     ];
 
     brews = [
@@ -83,6 +82,7 @@
       "aws-sam-cli"
       "spinframework/tap/spin"
       "hl"
+      "stern"
 
       # AI
       "claudish"

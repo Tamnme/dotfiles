@@ -96,8 +96,25 @@ scheme set catppuccin
 5. Link configs into `~/.config/fish/`
 ```bash
 mkdir -p ~/.config/fish
-ln -sf "$PWD/configs/config.fish"  ~/.config/fish/config.fish
+ln -sf "$PWD/configs/config.fish"        ~/.config/fish/config.fish
+ln -sf "$PWD/configs/fish/functions"     ~/.config/fish/functions
+ln -sf "$PWD/configs/fish/completions"   ~/.config/fish/completions
 ```
+
+#### Log viewing (hl + kubectl + stern)
+Wrappers around [`hl`](https://github.com/pamburus/hl) for colored JSON/logfmt logs.
+Optional dep: `stern` (`brew install stern`) — only `slog` needs it.
+
+| Function | What it does |
+|----------|--------------|
+| `klog POD [-n NS] [-f] [-c CON] [-s SINCE] [-p]` | `kubectl logs` piped through `hl`. Pager when not `-f`. Defaults `--since=10m`. |
+| `klogp [-n NS] [-f]` | fzf pod picker, then `klog`. |
+| `klogl SELECTOR [-n NS] [-f] [-s SINCE]` | `kubectl logs -l SELECTOR --all-containers` through `hl`. |
+| `slog PATTERN [-n NS] [-t N]` | `stern PATTERN --output=json` through `hl`. Always follows. Tail default 50. |
+| `logv [FILE...]` | Read files or stdin through `hl`. Pager when TTY. |
+
+All five accept `-- HL_ARGS...` to forward extra flags to `hl` (e.g.
+`klog mypod -f -- -l error`).
 
 #### Fish keybindings
 | Key | Action |
