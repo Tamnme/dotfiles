@@ -96,9 +96,14 @@ scheme set catppuccin
 5. Link configs into `~/.config/fish/`
 ```bash
 mkdir -p ~/.config/fish
-ln -sf "$PWD/configs/config.fish"        ~/.config/fish/config.fish
-ln -sf "$PWD/configs/fish/functions"     ~/.config/fish/functions
-ln -sf "$PWD/configs/fish/completions"   ~/.config/fish/completions
+ln -sf "$PWD/configs/config.fish" ~/.config/fish/config.fish
+mkdir -p ~/.config/fish/functions ~/.config/fish/completions
+for f in "$PWD"/configs/fish/functions/*.fish; do
+  ln -sf "$f" ~/.config/fish/functions/$(basename "$f")
+done
+for f in "$PWD"/configs/fish/completions/*.fish; do
+  ln -sf "$f" ~/.config/fish/completions/$(basename "$f")
+done
 ```
 
 #### Log viewing (hl + kubectl + stern)

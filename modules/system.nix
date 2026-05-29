@@ -16,6 +16,9 @@
   programs.zsh.enable = true;
   programs.fish.enable = true;
 
+  environment.variables.EDITOR = "nvim";
+  environment.variables.VISUAL = "nvim";
+
   system.primaryUser = currentUser;
   # Backwards compat. Read changelog before changing.
   # $ darwin-rebuild changelog

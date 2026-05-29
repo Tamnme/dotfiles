@@ -5,7 +5,7 @@
     user = currentUser;
 
     taps = [
-      "spinframework/tap"	
+      "spinframework/tap"
       "FelixKratz/formulae"	# borders
       "hashicorp/tap"
       "hidetatz/tap"   		# kubecolor
@@ -43,6 +43,7 @@
       "neovim"
       "jq"
       "yq"
+      "ast-grep"
       "telnet"
 
       # Dev tools
@@ -54,6 +55,8 @@
       "pandoc"
       "openvpn"
       "docker-slim"
+      "shellcheck"
+      "bats-core"
 
       # IaC
       "ansible"
@@ -63,6 +66,7 @@
       "hashicorp/tap/terraform"
       "terragrunt"
       "helm"
+      "podman"
 
       # Kubernetes
       "kubectl"
@@ -83,6 +87,9 @@
       "spinframework/tap/spin"
       "hl"
       "stern"
+      "oras"
+      "skopeo"
+      "kubeconform"
 
       # AI
       "claudish"
@@ -108,6 +115,7 @@
       "iina"
       "keka"
       "middledrag"
+      "xkey"
 
       # Dev tools
       "orbstack"

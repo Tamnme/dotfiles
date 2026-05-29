@@ -170,7 +170,7 @@ keybinds clear-defaults=true {
         bind "Alt =" { Resize "Increase"; }
         bind "Alt [" { PreviousSwapLayout; }
         bind "Alt ]" { NextSwapLayout; }
-        bind "Alt f" { ToggleFloatingPanes; }
+        bind "Alt Shift f" { ToggleFloatingPanes; }
         bind "Ctrl g" { SwitchToMode "locked"; }
         bind "Alt i" { MoveTab "left"; }
         bind "Alt n" { NewPane; }
@@ -340,7 +340,7 @@ default_mode "normal"
 // Choose the path to the default shell that zellij will use for opening new panes
 // Default: $SHELL
 // 
-// default_shell "fish"
+default_shell "/opt/homebrew/bin/fish"
  
 // Choose the path to override cwd that zellij will use for opening new panes
 // 
@@ -401,7 +401,7 @@ default_mode "normal"
 // Valid values: positive integers
 // Default value: 10000
 // 
-// scroll_buffer_size 10000
+scroll_buffer_size 10000
  
 // Provide a command to execute when copying text. The text will be piped to
 // the stdin of the program to perform the copy. This can be used with
@@ -471,7 +471,7 @@ default_mode "normal"
 // defaults to the scrollback size. If this number is higher than the scrollback size, it will
 // also default to the scrollback size. This does nothing if `serialize_pane_viewport` is not true.
 // 
-// scrollback_lines_to_serialize 10000
+scrollback_lines_to_serialize 1000
  
 // Enable or disable the rendering of styled and colored underlines (undercurl).
 // May need to be disabled for certain unsupported terminals
@@ -482,7 +482,7 @@ default_mode "normal"
  
 // How often in seconds sessions are serialized
 // 
-// serialization_interval 10000
+serialization_interval 60
  
 // Enable or disable writing of session metadata to disk (if disabled, other sessions might not know
 // metadata info on this session)

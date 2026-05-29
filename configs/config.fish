@@ -13,6 +13,8 @@ if status is-interactive
 end
 
 function fish_greeting
+    # Skip in subshells / nested fish (SHLVL > 1)
+    test "$SHLVL" -gt 1; and return
     fastfetch
 end
 
@@ -91,3 +93,10 @@ bind \ef forward-word
 
 ##-------- Color scheme (requires h-matsuo/fish-color-scheme-switcher)
 scheme set catppuccin
+
+# Added by OrbStack: command-line tools and integration
+# This won't be added again if you remove it.
+source ~/.orbstack/shell/init2.fish 2>/dev/null || :
+
+# Created by `pipx` on 2026-05-28 01:59:09
+set PATH $PATH /Users/tamnm/.local/bin
