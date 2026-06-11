@@ -10,6 +10,7 @@
       "hashicorp/tap"
       "hidetatz/tap"   		# kubecolor
       "MadAppGang/tap" 		# Claudish
+      "oven-sh/bun"       # tap
     ];
 
     brews = [
@@ -18,6 +19,7 @@
       "rustup"
       "pipx"
       "go"
+      "bun"
 
       # Shell & TUI
       "fish"
@@ -45,6 +47,7 @@
       "yq"
       "ast-grep"
       "telnet"
+      "git-lfs"
 
       # Dev tools
       "mise"
@@ -57,6 +60,8 @@
       "docker-slim"
       "shellcheck"
       "bats-core"
+      "poppler"
+      "tesseract"
 
       # IaC
       "ansible"
@@ -67,6 +72,7 @@
       "terragrunt"
       "helm"
       "podman"
+      "podman-compose"
 
       # Kubernetes
       "kubectl"
@@ -78,6 +84,7 @@
       "eksctl"
       "cilium-cli"
       "krew"
+      "siderolabs/tap/talosctl"
 
       # Cloud & security
       "trivy"
@@ -93,8 +100,9 @@
 
       # AI
       "claudish"
-      "gemini-cli"
       "rtk"
+      "agent-browser"
+      "block-goose-cli"
 
       # Learning
       "exercism"
@@ -102,10 +110,9 @@
 
     casks = [
       # AI
-      "claude-code"
+      "claude-code@latest"
 
       # Apps
-      "flashspace"
       "openinterminal"
       "flowvision"
       "hot"
@@ -116,6 +123,7 @@
       "keka"
       "middledrag"
       "xkey"
+      "loop"
 
       # Dev tools
       "orbstack"
