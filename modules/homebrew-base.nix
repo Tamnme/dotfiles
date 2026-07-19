@@ -21,6 +21,10 @@
       "go"
       "bun"
 
+      # git
+      "glab"
+      "gh"
+
       # Shell & TUI
       "fish"
       "zsh"
@@ -47,7 +51,8 @@
       "yq"
       "ast-grep"
       "telnet"
-      "git-lfs"
+      "herdr"
+      "coreutils"
 
       # Dev tools
       "mise"
@@ -85,10 +90,11 @@
       "cilium-cli"
       "krew"
       "siderolabs/tap/talosctl"
+      "kubecm"
 
       # Cloud & security
-      "trivy"
-      "argocd"
+      #"trivy"
+      #"argocd"
       "awscli"
       "aws-sam-cli"
       "spinframework/tap/spin"
@@ -100,9 +106,10 @@
 
       # AI
       "claudish"
+      "claude-code-router"
       "rtk"
       "agent-browser"
-      "block-goose-cli"
+      #"pi-coding-agent"
 
       # Learning
       "exercism"
@@ -111,8 +118,10 @@
     casks = [
       # AI
       "claude-code@latest"
+      "codex"
 
       # Apps
+      "antigravity-cli"
       "openinterminal"
       "flowvision"
       "hot"
@@ -128,7 +137,12 @@
       # Dev tools
       "orbstack"
       "ghostty@tip"
-      "tunnelblick"
+      # ponytail: upstream cask break — tunnelblick 8.0.3's API def uses an
+      # `uninstall_preflight_steps`/`set_ownership` artifact that no released
+      # Homebrew (5.x/6.x/HEAD) can parse, so `brew bundle` aborts. Installed
+      # v8.0 stays put (brew can't parse it to uninstall either). Uncomment once
+      # the cask is fixed upstream. https://github.com/Homebrew/homebrew-cask
+      #"tunnelblick"
       "warp"
       "aws-vault-binary"
       "secretive"
@@ -139,6 +153,13 @@
       autoUpdate = false;
       cleanup = "uninstall";
       upgrade = false;
+
+      # ponytail: macOS 27 beta is unknown to Homebrew (version lookup returns
+      # :dunno, breaking `brew bundle`). Pretend it's Tahoe (26). Remove when
+      # brew maps 27.
+      extraEnv = {
+        HOMEBREW_FAKE_MACOS = "26.0";
+      };
     };
   };
 }

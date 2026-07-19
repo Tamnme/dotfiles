@@ -50,7 +50,11 @@
         {
           nix-homebrew = {
             enable = true;
-            enableRosetta = true;
+            # ponytail: Intel prefix (/usr/local) is empty — no x86 formulae/casks.
+            # Rosetta setup was just emitting a warning for an unused prefix. Flip
+            # back to true (and run softwareupdate --install-rosetta) if you ever
+            # need an Intel-only cask.
+            enableRosetta = false;
             user = currentUser;
             autoMigrate = true;
           };

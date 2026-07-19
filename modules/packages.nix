@@ -4,7 +4,6 @@
   # $ nix-env -qaP | grep <name>
   environment.systemPackages = [
     pkgs.mkalias
-    pkgs.tmux
     pkgs.devenv
   ];
 }
