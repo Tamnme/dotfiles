@@ -133,7 +133,6 @@
       "pearcleaner"
       "music-decoy"
       "iina"
-      "keka"
       "middledrag"
       "xkey"
       "loop"

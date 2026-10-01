@@ -5,7 +5,10 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+    # Pinned: last rev before the brew 7.0.4 bump (#182), whose bin/brew shim lacks
+    # HOMEBREW_ORIGINAL_BREW_FILE and breaks activation (nix-homebrew#187). Still has
+    # the "# 🍺 Homebrew" README migration fix. Unpin once #187 is fixed.
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew/09a921d0181146cf6163ec2cc1db7b6fd539a885";
     nix-homebrew.inputs.brew-src.follows = "brew-src";
 
     # Homebrew 5.1.7 introduced regression crashing on certain casks (e.g. iina, zed)
