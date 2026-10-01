@@ -11,6 +11,7 @@
       "hidetatz/tap"   		# kubecolor
       "MadAppGang/tap" 		# Claudish
       "oven-sh/bun"       # tap
+      "abue-ammar/tinycast"
     ];
 
     brews = [
@@ -34,9 +35,11 @@
       "starship"
       "zellij"
       "atuin"
+      "herdr"
 
       # CLI core utilities
       "zoxide"
+      #"ffmpeg"
       "eza"
       "fzf"
       "yazi"
@@ -51,8 +54,8 @@
       "yq"
       "ast-grep"
       "telnet"
-      "herdr"
       "coreutils"
+      "mole"
 
       # Dev tools
       "mise"
@@ -121,7 +124,8 @@
       "codex"
 
       # Apps
-      "antigravity-cli"
+      #"antigravity-cli"
+      #"tinycast"
       "openinterminal"
       "flowvision"
       "hot"
@@ -135,7 +139,7 @@
       "loop"
 
       # Dev tools
-      "orbstack"
+      #"orbstack"
       "ghostty@tip"
       # ponytail: upstream cask break — tunnelblick 8.0.3's API def uses an
       # `uninstall_preflight_steps`/`set_ownership` artifact that no released
