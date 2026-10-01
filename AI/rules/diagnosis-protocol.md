@@ -113,3 +113,19 @@ Precedent: a repo's CLAUDE.md carried "do not conclude Bedrock is unreachable" a
 trap that had already cost several rounds. Its README still opened the Blocked section with
 "Bedrock is unreachable from the target account ... a commercial restriction, not a
 technical one" — the exact refuted diagnosis — and had done for multiple sessions.
+
+## A control needs its own positive control
+
+A falsification harness must distinguish "the check went red" from "the check never ran".
+No answer — `000`, empty output, connection refused, exit 127 — is INVALID, not a pass.
+Make the harness reject it explicitly rather than letting it fall through to the success
+branch, and assert the probe's precondition (service reachable, mutation actually present
+in the running artifact) before concluding from its result.
+
+Precedent: a control for a new fail-closed gate reported CONTROL PASSED on `status=000`.
+It had waited for the container to report the right env via `exec` but never for the proxy
+to bind its port, so curl could not connect — and "not 401" was read as the gate going red.
+The same `000`-is-a-false-RED trap was already written down in that repo's CLAUDE.md and had
+been read earlier in the same session; having the rule did not prevent writing new code that
+broke it. The second run, gated on a health check, produced a real 403 and a real
+falsification.

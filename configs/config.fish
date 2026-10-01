@@ -99,4 +99,6 @@ scheme set catppuccin
 source ~/.orbstack/shell/init2.fish 2>/dev/null || :
 
 # Created by `pipx` on 2026-05-28 01:59:09
-set PATH $PATH /Users/tamnm/.local/bin
+fish_add_path -g /Users/tamnm/.local/bin
+
+eval (/opt/homebrew/bin/brew shellenv fish)

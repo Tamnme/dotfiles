@@ -57,6 +57,33 @@ half-written before a plan surfaced `vpc_id = "vpc-00000000"`. Two defects then 
 copying sit's committed values — a read-only Valkey `access_string`, and an MSK `scram_username`
 left at the module default — neither of which had ever run anywhere.
 
+## Making a step unconditional is a first run on every host
+
+Before merging a change that makes a deploy step run where it did not before, run that step's
+precondition against every real host. A path that has never executed on a host has never been
+tested against its state — "unconditional" is a deploy of untested code to all of them at once.
+Writing the risk into the MR description is not mitigation.
+
+Precedent: `apply_config` was moved out of two case arms to run on every deploy. On uat it had
+never run (both prior deploys were `upgrade`) and `conf/.render-env` did not exist. The MR said
+"a missing .render-env now fails every deploy"; nobody ran `cut -d= -f1 ~/odoo/conf/.render-env`
+first. Result: seven failed deploys over a day, and — because each died after the symlink
+swap — every intervening rehearsal degraded to `-u all`, 19 minutes instead of 5.
+
+## A tag on a resource is not a tag activated for billing
+
+**Tagging resources and being able to group cost by that tag are two separate systems.** Check
+`aws ce list-cost-allocation-tags` before planning any cost measurement, and note that
+activation is **not retroactive** — data accrues from activation forward, so switching it on
+does not recover the window you wanted to measure.
+
+Precedent: every POC resource carried `project=hybrid-poc` via terraform `default_tags`, and
+every Cost Explorer query filtered on it returned `0.00` for four consecutive days while the
+same window unfiltered showed $3.87 / $4.62 / $1.05. The tag's status was `Inactive`, and no
+cost-allocation tag was Active in that account at all. A go/no-go decision had been scheduled
+against a soak that was collecting nothing and never would have — and the zeros read as
+"cheaper than expected" rather than as "not instrumented".
+
 ## A missing job or config may be documented as deliberately missing
 
 Before adding something that "should obviously exist", grep the file's own header and
@@ -68,6 +95,25 @@ turned `main` red. `.gitlab-ci.yml`'s header already said "win-vm is dev-only to
 with no allocations overlay — so the allocator correctly refused. The header text had
 already been read earlier in the same session; the conclusion was drawn from the absence
 rather than from the documentation of that absence.
+
+## Read the working sibling, not just the cluster
+
+Before adding a workload beside one that already works, **diff your new security group,
+task definition and IAM policy against the working one's**. The sibling is a tested answer
+to the same network; deriving your own from first principles re-discovers its constraints
+as outages.
+
+Precedent: a POC Fargate task placed beside a proven gateway took five failed task starts —
+Secrets Manager unreachable (no interface endpoint, no NAT), the shared endpoint SG
+admitting only the proven task's SG, egress allowing the VPC CIDR but not the S3/DynamoDB
+**prefix lists** that gateway endpoints actually route, the ALB SG egress locked to the
+proven port, and the harness SG likewise. Every one was already answered in
+`sg-0ea3b93fe538a2416` and two `describe-security-groups` calls. Each surfaced as a
+symptom pointing elsewhere: an ECR `i/o timeout` that looked like routing, and a
+`Target.Timeout` while the container logged `Uvicorn running` throughout. The same omission
+made a gate pass for the wrong reason earlier in that session — a tenant role's trust
+policy, unread, named exactly one principal that no local caller could ever be, so the
+"wrong ExternalId is refused" test was really just observing the caller refused outright.
 
 ## Scope
 

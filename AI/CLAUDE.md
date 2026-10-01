@@ -32,6 +32,11 @@ Pick the cheapest model that can do the subtask well:
 
 If a subagent finds the task needs a higher tier, surface that in its return message; parent re-spawns at the right tier.
 
+**Effort is set per agent type, not per call** — route by kind of work:
+- **Code from a plan or explicit instructions → `subagent_type: implementer`** (Opus, low effort). This overrides skills that dispatch a `general-purpose` implementer (superpowers subagent-driven-development). Implementer's "tests pass" is a claim: re-run the gate yourself in a clean state. On a plan gap it stops and reports; resolve the gap, then retry `implementer` with a sharper brief. Fix round 4+ goes to `general-purpose` (inherits medium), not `architect`.
+- **Delegated architecture design → `subagent_type: architect`** (Opus, high, read-only). It returns a design; the parent writes the spec and runs the approval gate. Design dialogue with the user stays in the main thread — raise it with `/effort high` (or `xhigh` for one-way doors) rather than delegating.
+- Everything else (review, diagnosis, research, Explore) inherits the session effort; pick the model per call as above.
+
 **A subagent told to re-score from existing notes launders their errors into fresh
 authority.** When the output carries a recommendation, brief it to re-verify the
 load-bearing cells at source and cite the sha; the token saving is not worth shipping a
@@ -39,6 +44,25 @@ wrong cell under a new title. Precedent: `llm-gateway-vs-custom.md` recorded tha
 has no pre-call budget reservation, four months after `budget_reservation.py` landed. The
 brief said "do not re-research", so three cells of a fifteen-candidate matrix shipped
 wrong and needed a correction banner the next day.
+
+**A handoff doc names files on the branch its author was on, not on your checkout. Verify
+they exist before dispatching readers at them.** Run `git ls-files <paths>` and check the
+branch first — a doc's file list is a claim about someone else's working tree. Precedent: two
+Explore agents were dispatched at `poc/` and `docs/` on the strength of a plan document and
+both returned "no such files"; the entire POC lived on an unmerged branch while the tree was
+on `main`. The corrections sent mid-flight were then flagged by both agents as suspected
+prompt injection and partly ignored, so the wasted runs could not even be salvaged. The same
+wrong-checkout read also produced a shipped-then-retracted finding that
+`.planning/.active_plan` was dangling: an **untracked** pointer to a **tracked** target reads
+as broken from every branch that does not carry the target.
+
+**Run baselines in their own clean worktree at BASE, never in the worktree implementers are
+editing.** A long gate (Docker build, integration suite) that overlaps an edit measures a
+half-applied tree, and its result cannot be attributed to either side. Precedent: an 11-minute
+regression-gate baseline, run while Task 1 was editing `app/`, reported one failure that could
+be a flake or a half-applied edit; the clean `git worktree add --detach … <BASE>` rerun was 0
+failures, and the first run's time was wasted. The same clean tree then served every
+base-vs-branch comparison.
 
 Parent owns final output and cross-spawn synthesis. User instructions override.
 
@@ -64,3 +88,4 @@ Deps (install on first use): `pip install pypdf pdf2image pytesseract pdfplumber
 - `~/.claude/tools/pdf_extract.py <file> [--pages A-B] [--force-ocr] [--no-ocr]` — auto-selects pdftotext vs OCR. Default extraction path.
 - `~/.claude/tools/pdf_tables.py <file> [--pages A-B] [--out DIR]` — structured table extraction (camelot→pdfplumber fallback).
 - `~/.claude/tools/pdf_split.py <file> --pages A-B [--out FILE]` — slice large PDFs before reading.
+- `~/.claude/tools/gl_job.sh <job-url|job-id> [max_lines]` — GitLab CI job digest: metadata, **truncation warning first**, script phase lines, deduped errors (incl. bash `line N:` errors), last lines. Cleaned trace saved to `$TMPDIR/gl_job/job-<id>.txt`. URL form works from any dir (sets `GITLAB_HOST`); bare id uses the cwd repo. Use this instead of hand-building glab + tr + sed pipelines.
