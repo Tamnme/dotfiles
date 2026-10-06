@@ -61,6 +61,7 @@ Use the `--impure` flag with `nix` commands to enable this detection.
    ```bash
    HOSTNAME=$(hostname -s) darwin-rebuild switch --flake . --impure
    ```
+4. Claude Code: `AI/install.sh`, then `claude` and `/login`. Links `~/.claude/*` and `~/.agents` into this repo and installs plugins. Not synced: credentials, `settings.local.json`, history, memory.
 
 ### Fish Shell Setup
 After `darwin-rebuild switch` installs fish via Homebrew, finish the per-user setup:

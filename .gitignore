@@ -6,3 +6,6 @@ flake.lock
 result
 docs
 conductor
+# Claude: claude.ai-synced skills, local app bundle
+AI/skills/synced/
+AI/tools/Lesson.app/
