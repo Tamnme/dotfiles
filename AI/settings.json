@@ -3,6 +3,22 @@
     "CLAUDE_PLUGIN_OPTION_TIER_FLASH": "Gemini 3.8 Flash (High)",
     "CLAUDE_PLUGIN_OPTION_TIER_FLASH_LO": "Gemini 3.8 Flash (Low)"
   },
+  "permissions": {
+    "allow": [
+      "Bash(rtk *)"
+    ],
+    "ask": [
+      "Bash(* apply*)",
+      "Bash(* sudo *)",
+      "Bash(*ansible-playbook*)",
+      "Bash(*helm upgrade*)",
+      "Bash(*kubectl delete*)",
+      "Bash(*kubectl patch*)",
+      "Bash(*terragrunt run --all*)",
+      "Bash(*terragrunt run-all*)",
+      "Bash(sudo *)"
+    ]
+  },
   "model": "opus[1m]",
   "disableClaudeAiConnectors": true,
   "hooks": {
@@ -247,12 +263,11 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "bash -c 'cols=$(stty size </dev/tty 2>/dev/null | awk '\"'\"'{print $2}'\"'\"'); export COLUMNS=$(( ${cols:-120} > 4 ? ${cols:-120} - 4 : 1 )); plugin_dir=$(ls -d \"${CLAUDE_CONFIG_DIR:-$HOME/.claude}\"/plugins/cache/*/claude-hud/*/ 2>/dev/null | awk -F/ '\"'\"'{ print $(NF-1) \"\\t\" $(0) }'\"'\"' | grep -E '\"'\"'^[0-9]+\\.[0-9]+\\.[0-9]+[[:space:]]'\"'\"' | sort -t. -k1,1n -k2,2n -k3,3n -k4,4n | tail -1 | cut -f2-); exec \"/opt/homebrew/bin/bun\" --env-file /dev/null \"${plugin_dir}src/index.ts\"'"
+    "command": "'/opt/homebrew/Cellar/bun/1.4.2/bin/bun' --env-file /dev/null '/Users/macos/.claude/plugins/claude-hud/statusline.mjs'"
   },
   "enabledPlugins": {
     "ast-grep@ast-grep-marketplace": true,
     "caveman@caveman": false,
-    "claude-code-goal@balakumar": false,
     "claude-hud@claude-hud": true,
     "codex@openai-codex": true,
     "context-mode@context-mode": true,
@@ -266,7 +281,11 @@
     "drawio@365-skills": true,
     "mattpocock-skills@claude-plugins-official": true,
     "humanizer@humanizer": true,
-    "understand-anything@understand-anything": true
+    "understand-anything@understand-anything": true,
+    "blast-radius@claude-code-playground-mods": true,
+    "savvy-progress@claude-kit": true,
+    "skins@hellosverre-mods": true,
+    "terminal-browser@terminal-browser": true
   },
   "extraKnownMarketplaces": {
     "ast-grep-marketplace": {
@@ -346,6 +365,36 @@
         "source": "github",
         "repo": "mksglu/context-mode"
       }
+    },
+    "claude-plugins-official": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/claude-plugins-official"
+      }
+    },
+    "claude-code-playground-mods": {
+      "source": {
+        "source": "directory",
+        "path": "/Users/macos/.claude/plugins/local/claude-code-playground/claude-code/mods"
+      }
+    },
+    "claude-kit": {
+      "source": {
+        "source": "github",
+        "repo": "JohnnyVizz/claude-kit"
+      }
+    },
+    "hellosverre-mods": {
+      "source": {
+        "source": "github",
+        "repo": "hellosverre/claude-skins"
+      }
+    },
+    "terminal-browser": {
+      "source": {
+        "source": "github",
+        "repo": "zenbu-labs/terminal-browser"
+      }
     }
   },
   "effortLevel": "medium",
@@ -386,22 +435,6 @@
       "**Trusted repo**: The git repository the agent started in (~/Documents/CloudAZ) — currently has no tracked files and no configured remotes",
       "**Org-specific CLIs**: agy-delegate (18× in-project, plus documented in ~/.claude/CLAUDE.md as a delegated search/research worker CLI)",
       "routine under ~/Documents/CloudAZ/ prefix: none established — repo has zero tracked files"
-    ]
-  },
-  "permissions": {
-    "allow": [
-      "Bash(rtk *)"
-    ],
-    "ask": [
-      "Bash(* apply*)",
-      "Bash(* sudo *)",
-      "Bash(*ansible-playbook*)",
-      "Bash(*helm upgrade*)",
-      "Bash(*kubectl delete*)",
-      "Bash(*kubectl patch*)",
-      "Bash(*terragrunt run --all*)",
-      "Bash(*terragrunt run-all*)",
-      "Bash(sudo *)"
     ]
   }
 }

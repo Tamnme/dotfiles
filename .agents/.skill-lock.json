@@ -153,9 +153,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/stablyai/orca.git",
       "skillPath": "skills/orchestration/SKILL.md",
-      "skillFolderHash": "9aa26fde93c0592e5983cdca1ccd33b402802255",
+      "skillFolderHash": "b0cd1d58b0c317cf7c3726fef7e6b1197c405246",
       "installedAt": "2026-07-15T06:25:26.411Z",
-      "updatedAt": "2026-07-27T02:30:05.281Z"
+      "updatedAt": "2026-10-06T03:09:36.438Z"
     },
     "unlazy": {
       "source": "Leonxlnx/unlazy",
@@ -165,6 +165,15 @@
       "skillFolderHash": "16671491f6679ad9378f52604d3bc2415b4120c7",
       "installedAt": "2026-09-06T15:43:40.554Z",
       "updatedAt": "2026-09-06T15:43:40.554Z"
+    },
+    "drawio-skill": {
+      "source": "Agents365-ai/drawio-skill",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/Agents365-ai/drawio-skill.git",
+      "skillPath": "skills/drawio-skill/SKILL.md",
+      "skillFolderHash": "15f4de95d40dd2889e8b2c2f3499fdcf67cbfff0",
+      "installedAt": "2026-10-09T09:02:46.374Z",
+      "updatedAt": "2026-10-09T09:02:46.374Z"
     }
   },
   "dismissed": {
@@ -172,16 +181,16 @@
   },
   "lastSelectedAgents": [
     "amp",
-    "antigravity",
-    "antigravity-cli",
     "cline",
     "codex",
     "cursor",
-    "deepagents",
+    "droid",
     "gemini-cli",
     "github-copilot",
+    "kilo",
     "kimi-code-cli",
     "opencode",
+    "pi",
     "warp",
     "zed",
     "claude-code"
