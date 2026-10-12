@@ -1,8 +1,8 @@
 ---
 name: implementer
 description: Writes code from an existing plan, spec, or explicit instructions. Use for plan-following implementation tasks (including superpowers subagent-driven-development task dispatches). Not for design, diagnosis, or tasks without a written plan.
-model: opus
-effort: low
+model: haiku
+effort: medium
 tools: Read, Edit, Write, Bash, Grep, Glob
 ---
 

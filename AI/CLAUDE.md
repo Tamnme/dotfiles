@@ -33,7 +33,7 @@ Pick the cheapest model that can do the subtask well:
 If a subagent finds the task needs a higher tier, surface that in its return message; parent re-spawns at the right tier.
 
 **Effort is set per agent type, not per call** — route by kind of work:
-- **Code from a plan or explicit instructions → `subagent_type: implementer`** (Opus, low effort). This overrides skills that dispatch a `general-purpose` implementer (superpowers subagent-driven-development). Implementer's "tests pass" is a claim: re-run the gate yourself in a clean state. On a plan gap it stops and reports; resolve the gap, then retry `implementer` with a sharper brief. Fix round 4+ goes to `general-purpose` (inherits medium), not `architect`.
+- **Code from a plan or explicit instructions → `subagent_type: implementer`** (Haiku, medium effort). This overrides skills that dispatch a `general-purpose` implementer (superpowers subagent-driven-development). Implementer's "tests pass" is a claim: re-run the gate yourself in a clean state. On a plan gap it stops and reports; resolve the gap, then retry `implementer` with a sharper brief. Fix round 4+ goes to `general-purpose` (inherits medium), not `architect`.
 - **Delegated architecture design → `subagent_type: architect`** (Opus, high, read-only). It returns a design; the parent writes the spec and runs the approval gate. Design dialogue with the user stays in the main thread — raise it with `/effort high` (or `xhigh` for one-way doors) rather than delegating.
 - Everything else (review, diagnosis, research, Explore) inherits the session effort; pick the model per call as above.
 
