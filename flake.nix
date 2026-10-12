@@ -3,19 +3,19 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nix-darwin.url = "github:LnL7/nix-darwin";
+    # Release branch must match the locked nixpkgs release (checkRelease). 26.05 passes
+    # brew 7's --force-cleanup; the old LnL7 rev passed --cleanup, which brew 7 removed.
+    nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    # Pinned: last rev before the brew 7.0.4 bump (#182), whose bin/brew shim lacks
-    # HOMEBREW_ORIGINAL_BREW_FILE and breaks activation (nix-homebrew#187). Still has
-    # the "# 🍺 Homebrew" README migration fix. Unpin once #187 is fixed.
-    nix-homebrew.url = "github:zhaofengli/nix-homebrew/09a921d0181146cf6163ec2cc1db7b6fd539a885";
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
     nix-homebrew.inputs.brew-src.follows = "brew-src";
 
-    # Homebrew 5.1.7 introduced regression crashing on certain casks (e.g. iina, zed)
-    # with "undefined method 'to_sym' for nil". Pin to 5.1.10.
-    # See: https://github.com/Homebrew/brew/issues/17156
+    # Keep brew-src in step with nix-homebrew's shim (modules/brew.tail.sh is a copy of
+    # upstream bin/brew). Mismatch = nix-homebrew#187: brew <=6.0.x fetches
+    # HOMEBREW_ORIGINAL_BREW_FILE, which the 7.0.4+ shim no longer exports.
+    # Needs >=7.0 for casks using preflight_steps (e.g. gcloud-cli).
     brew-src = {
-      url = "github:Homebrew/brew/5.1.10";
+      url = "github:Homebrew/brew/7.0.9";
       flake = false;
     };
   };
