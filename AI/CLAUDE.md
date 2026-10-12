@@ -1,8 +1,4 @@
 @~/.claude/RTK.md
-## graphify
-- **graphify** (`~/.claude/skills/graphify/SKILL.md`) - any input to knowledge graph. Trigger: `/graphify`
-When the user types `/graphify`, invoke the Skill tool with `skill: "graphify"` before doing anything else.
-
 ## Subagents
 
 - **Don't spawn for**: judgment calls, design decisions, fixes where you need the file open after.

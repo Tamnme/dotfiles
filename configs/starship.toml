@@ -4,68 +4,6 @@ format = """
 $all
 """
 
-right_format = """
-$aws
-"""
-        # $time\
-        # $hostname\
-        # $directory\
-        # $aws\
-        # $gcloud\
-        # $singularity\
-        # $kubernetes\
-        # $docker_context\
-        # (↓ Source control - for right side ↓)\
-        # $hg_branch\
-        # $git_branch\
-        # $git_commit\
-        # $git_status\
-        # $git_state\
-        # (↑ Source control - for right side ↑)\
-        # (↓ Toolchain version modules ↓)\
-        # $crystal\
-        # $dart\
-        # $dotnet\
-        # $elixir\
-        # $elm\
-        # $erlang\
-        # $golang\
-        # $java\
-        # $lua\
-        # $julia\
-        # $nim\
-        # $nodejs\
-        # $ocaml\
-        # $perl\
-        # $php\
-        # $purescript\
-        # $python\
-        # $ruby\
-        # $rust\
-        # $swift\
-        # $terraform\
-        # $zig\
-        # (↑ Toolchain version modules ↑)\
-        # (↓ Package modules ↓)\
-        # $helm\
-        # $package\
-        # $cmake\
-        # $conda\
-        # (↑ Package modules ↑)\
-        # $nix_shell\
-        # $memory_usage\
-        # $env_var\
-        # $custom\
-        # (↑ above input line ↑)\
-        # $line_break\
-        # (↓ on input line ↓)\
-        # $battery\
-        # $shlvl\
-        # $jobs\
-        # $cmd_duration\
-        # $status\
-        # $character"""
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~     DIRECTORY     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 [directory]
 #style= "fg:#6A8AEA"
