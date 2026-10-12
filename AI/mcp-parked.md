@@ -16,7 +16,7 @@ Evidence: `mcp__` tool-call counts across all 262 transcripts in `~/.claude/proj
 ## Re-enable
 
 ```bash
-# plan — backs the /visual-plan and /visual-recap skills (both also unused)
+# plan — backed the /visual-plan and /visual-recap skills (both removed 2026-10-12)
 claude mcp add --transport http plan https://plan.agent-native.com/_agent-native/mcp
 
 # semble — code search over local/remote git repos
