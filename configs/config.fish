@@ -1,4 +1,3 @@
-set -gx SHELL /opt/homebrew/bin/fish
 
 ##-------- Nix / nix-darwin PATH
 # nix-darwin installs darwin-rebuild under /run/current-system/sw/bin.
@@ -99,6 +98,8 @@ scheme set catppuccin
 source ~/.orbstack/shell/init2.fish 2>/dev/null || :
 
 # Created by `pipx` on 2026-05-28 01:59:09
-fish_add_path -g /Users/tamnm/.local/bin
+fish_add_path -g ~/.local/bin
 
-eval (/opt/homebrew/bin/brew shellenv fish)
+for b in /opt/homebrew/bin/brew /home/linuxbrew/.linuxbrew/bin/brew
+    test -x $b; and $b shellenv fish | source; and set -gx SHELL (path dirname $b)/fish
+end

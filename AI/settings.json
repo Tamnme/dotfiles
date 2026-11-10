@@ -1,9 +1,50 @@
 {
   "env": {
+    "ENABLE_TOOL_SEARCH": "true",
+    "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "272000",
+    "CLAUDE_CODE_AUTO_MODE_SERVER": "0",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "65536",
+    "CLAUDE_CODE_MODEL_CAPABILITIES": "antigravity/gemini-3.8-flash=effort;antigravity/claude-opus-4-6-thinking=effort,max_effort",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "antigravity/gemini-3.8-flash[1m]",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "antigravity/gemini-3.8-flash[1m]",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "antigravity/gemini-3.8-flash[1m]",
+    "ANTHROPIC_SMALL_FAST_MODEL": "antigravity/gemini-3.8-flash[1m]",
+    "ANTHROPIC_AUTH_TOKEN": "magpie",
+    "ANTHROPIC_BASE_URL": "http://127.0.0.1:3425",
     "CLAUDE_PLUGIN_OPTION_TIER_FLASH": "Gemini 3.8 Flash (High)",
     "CLAUDE_PLUGIN_OPTION_TIER_FLASH_LO": "Gemini 3.8 Flash (Low)"
   },
-  "model": "opus[1m]",
+  "permissions": {
+    "allow": [
+      "Bash(rtk *)"
+    ],
+    "ask": [
+      "Bash(* apply*)",
+      "Bash(* sudo *)",
+      "Bash(*ansible-playbook*)",
+      "Bash(*helm upgrade*)",
+      "Bash(*kubectl delete*)",
+      "Bash(*kubectl patch*)",
+      "Bash(*terragrunt run --all*)",
+      "Bash(*terragrunt run-all*)",
+      "Bash(sudo *)"
+    ]
+  },
+  "model": "antigravity/gemini-3.8-flash[1m]",
+  "modelPicker": {
+    "options": [
+      {
+        "description": "nmtam57@gmail.com · via magpie",
+        "label": "Gemini 3.8 Flash · Antigravity",
+        "model": "antigravity/gemini-3.8-flash[1m]"
+      },
+      {
+        "description": "nmtam57@gmail.com · via magpie",
+        "label": "Claude Opus 4.6 (Thinking) · Antigravity",
+        "model": "antigravity/claude-opus-4-6-thinking"
+      }
+    ]
+  },
   "disableClaudeAiConnectors": true,
   "hooks": {
     "Notification": [
@@ -44,7 +85,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "rtk hook claude"
+            "command": "/home/linuxbrew/.linuxbrew/bin/rtk hook claude"
           }
         ]
       },
@@ -89,28 +130,20 @@
         ]
       },
       {
-        "matcher": "",
         "hooks": [
           {
             "type": "command",
-            "command": "gh-axi",
+            "command": "if [ -z \"${HOME-}\" ]; then case \"${OSTYPE-}\" in msys*|cygwin*|win32*) printf '{}\\n'; if [ -z \"${ORCA_AGENT_HOOK_PORT-}\" ] || [ -z \"${ORCA_AGENT_HOOK_TOKEN-}\" ] || [ -z \"${ORCA_PANE_KEY-}\" ]; then exit 0; fi; { command -p cat 2>/dev/null || cat; } >/dev/null 2>&1 || : ;; *) { command -p cat 2>/dev/null || cat; } >/dev/null 2>&1 || :; printf '{}\\n' ;; esac; else case \"${OSTYPE-}\" in msys*|cygwin*|win32*) if [ -f \"${HOME-}/.orca/agent-hooks/claude-hook.cmd\" ]; then case \"${HOME-}\" in *\\&*|*\\^*|*\\(*|*\\)*|*\\;*|*,*|*=*|*%*|*\\!*) if [ -f \"${SYSTEMROOT-}/System32/WindowsPowerShell/v1.0/powershell.exe\" ]; then \"${SYSTEMROOT-}/System32/WindowsPowerShell/v1.0/powershell.exe\" -NoProfile -EncodedCommand JABQAHIAbwBnAHIAZQBzAHMAUAByAGUAZgBlAHIAZQBuAGMAZQA9ACcAUwBpAGwAZQBuAHQAbAB5AEMAbwBuAHQAaQBuAHUAZQAnADsAIAB0AHIAeQAgAHsAIABTAGUAdAAtAEUAeABlAGMAdQB0AGkAbwBuAFAAbwBsAGkAYwB5ACAALQBTAGMAbwBwAGUAIABQAHIAbwBjAGUAcwBzACAALQBFAHgAZQBjAHUAdABpAG8AbgBQAG8AbABpAGMAeQAgAEIAeQBwAGEAcwBzACAALQBGAG8AcgBjAGUAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAFMAaQBsAGUAbgB0AGwAeQBDAG8AbgB0AGkAbgB1AGUAIAB9ACAAYwBhAHQAYwBoACAAewB9ADsAIAAkAGgAbwBtAGUAUABhAHQAaAAgAD0AIAAkAGUAbgB2ADoASABPAE0ARQAgAC0AcgBlAHAAbABhAGMAZQAgACcAXgAvACgAWwBBAC0AWgBhAC0AegBdACkALwAnACwAIAAnACQAMQA6AC8AJwA7ACAAJABzAGMAcgBpAHAAdABQAGEAdABoACAAPQAgAEoAbwBpAG4ALQBQAGEAdABoACAAJABoAG8AbQBlAFAAYQB0AGgAIAAnAC4AbwByAGMAYQBcAGEAZwBlAG4AdAAtAGgAbwBvAGsAcwBcAGMAbABhAHUAZABlAC0AaABvAG8AawAuAGMAbQBkACcAOwAgAGkAZgAgACgAVABlAHMAdAAtAFAAYQB0AGgAIAAtAEwAaQB0AGUAcgBhAGwAUABhAHQAaAAgACQAcwBjAHIAaQBwAHQAUABhAHQAaAAgAC0AUABhAHQAaABUAHkAcABlACAATABlAGEAZgApACAAewAgACYAIAAkAHMAYwByAGkAcAB0AFAAYQB0AGgAOwAgAGUAeABpAHQAIAAkAEwAQQBTAFQARQBYAEkAVABDAE8ARABFACAAfQA7ACAAVwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAnAHsAfQAnADsAIABpAGYAIAAoAC0AbgBvAHQAIAAkAGUAbgB2ADoATwBSAEMAQQBfAEEARwBFAE4AVABfAEgATwBPAEsAXwBQAE8AUgBUACAALQBvAHIAIAAtAG4AbwB0ACAAJABlAG4AdgA6AE8AUgBDAEEAXwBBAEcARQBOAFQAXwBIAE8ATwBLAF8AVABPAEsARQBOACAALQBvAHIAIAAtAG4AbwB0ACAAJABlAG4AdgA6AE8AUgBDAEEAXwBQAEEATgBFAF8ASwBFAFkAKQAgAHsAIABlAHgAaQB0ACAAMAAgAH0AOwAgAFsAQwBvAG4AcwBvAGwAZQBdADoAOgBJAG4ALgBSAGUAYQBkAFQAbwBFAG4AZAAoACkAIAB8ACAATwB1AHQALQBOAHUAbABsADsAIABlAHgAaQB0ACAAMAA=; else printf '{}\\n'; if [ -z \"${ORCA_AGENT_HOOK_PORT-}\" ] || [ -z \"${ORCA_AGENT_HOOK_TOKEN-}\" ] || [ -z \"${ORCA_PANE_KEY-}\" ]; then exit 0; fi; { command -p cat 2>/dev/null || cat; } >/dev/null 2>&1 || :; fi ;; *) \"${HOME-}/.orca/agent-hooks/claude-hook.cmd\" ;; esac; else printf '{}\\n'; if [ -z \"${ORCA_AGENT_HOOK_PORT-}\" ] || [ -z \"${ORCA_AGENT_HOOK_TOKEN-}\" ] || [ -z \"${ORCA_PANE_KEY-}\" ]; then exit 0; fi; { command -p cat 2>/dev/null || cat; } >/dev/null 2>&1 || :; fi ;; *) if [ -f \"${HOME-}/.orca/agent-hooks/claude-hook.sh\" ] && [ -r \"${HOME-}/.orca/agent-hooks/claude-hook.sh\" ] && [ -x \"${HOME-}/.orca/agent-hooks/claude-hook.sh\" ]; then ORCA_HOOK_AGENT_PID=\"${PPID:-}\"; export ORCA_HOOK_AGENT_PID; /bin/sh \"${HOME-}/.orca/agent-hooks/claude-hook.sh\"; else { command -p cat 2>/dev/null || cat; } >/dev/null 2>&1 || :; printf '{}\\n'; fi ;; esac; fi",
             "timeout": 10
           }
         ]
       },
       {
+        "matcher": "^(startup|resume|clear|compact|fork)$",
         "hooks": [
           {
             "type": "command",
-            "command": "/opt/homebrew/bin/loopany"
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "if [ -z \"${HOME-}\" ]; then case \"${OSTYPE-}\" in msys*|cygwin*|win32*) printf '{}\\n'; if [ -z \"${ORCA_AGENT_HOOK_PORT-}\" ] || [ -z \"${ORCA_AGENT_HOOK_TOKEN-}\" ] || [ -z \"${ORCA_PANE_KEY-}\" ]; then exit 0; fi; { command -p cat 2>/dev/null || cat; } >/dev/null 2>&1 || : ;; *) { command -p cat 2>/dev/null || cat; } >/dev/null 2>&1 || :; printf '{}\\n' ;; esac; else case \"${OSTYPE-}\" in msys*|cygwin*|win32*) if [ -f \"${HOME-}/.orca/agent-hooks/claude-hook.cmd\" ]; then case \"${HOME-}\" in *\\&*|*\\^*|*\\(*|*\\)*|*\\;*|*,*|*=*|*%*|*\\!*) if [ -f \"${SYSTEMROOT-}/System32/WindowsPowerShell/v1.0/powershell.exe\" ]; then \"${SYSTEMROOT-}/System32/WindowsPowerShell/v1.0/powershell.exe\" -NoProfile -EncodedCommand JABQAHIAbwBnAHIAZQBzAHMAUAByAGUAZgBlAHIAZQBuAGMAZQA9ACcAUwBpAGwAZQBuAHQAbAB5AEMAbwBuAHQAaQBuAHUAZQAnADsAIAB0AHIAeQAgAHsAIABTAGUAdAAtAEUAeABlAGMAdQB0AGkAbwBuAFAAbwBsAGkAYwB5ACAALQBTAGMAbwBwAGUAIABQAHIAbwBjAGUAcwBzACAALQBFAHgAZQBjAHUAdABpAG8AbgBQAG8AbABpAGMAeQAgAEIAeQBwAGEAcwBzACAALQBGAG8AcgBjAGUAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAFMAaQBsAGUAbgB0AGwAeQBDAG8AbgB0AGkAbgB1AGUAIAB9ACAAYwBhAHQAYwBoACAAewB9ADsAIAAkAGgAbwBtAGUAUABhAHQAaAAgAD0AIAAkAGUAbgB2ADoASABPAE0ARQAgAC0AcgBlAHAAbABhAGMAZQAgACcAXgAvACgAWwBBAC0AWgBhAC0AegBdACkALwAnACwAIAAnACQAMQA6AC8AJwA7ACAAJABzAGMAcgBpAHAAdABQAGEAdABoACAAPQAgAEoAbwBpAG4ALQBQAGEAdABoACAAJABoAG8AbQBlAFAAYQB0AGgAIAAnAC4AbwByAGMAYQBcAGEAZwBlAG4AdAAtAGgAbwBvAGsAcwBcAGMAbABhAHUAZABlAC0AaABvAG8AawAuAGMAbQBkACcAOwAgAGkAZgAgACgAVABlAHMAdAAtAFAAYQB0AGgAIAAtAEwAaQB0AGUAcgBhAGwAUABhAHQAaAAgACQAcwBjAHIAaQBwAHQAUABhAHQAaAAgAC0AUABhAHQAaABUAHkAcABlACAATABlAGEAZgApACAAewAgACYAIAAkAHMAYwByAGkAcAB0AFAAYQB0AGgAOwAgAGUAeABpAHQAIAAkAEwAQQBTAFQARQBYAEkAVABDAE8ARABFACAAfQA7ACAAVwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAnAHsAfQAnADsAIABpAGYAIAAoAC0AbgBvAHQAIAAkAGUAbgB2ADoATwBSAEMAQQBfAEEARwBFAE4AVABfAEgATwBPAEsAXwBQAE8AUgBUACAALQBvAHIAIAAtAG4AbwB0ACAAJABlAG4AdgA6AE8AUgBDAEEAXwBBAEcARQBOAFQAXwBIAE8ATwBLAF8AVABPAEsARQBOACAALQBvAHIAIAAtAG4AbwB0ACAAJABlAG4AdgA6AE8AUgBDAEEAXwBQAEEATgBFAF8ASwBFAFkAKQAgAHsAIABlAHgAaQB0ACAAMAAgAH0AOwAgAFsAQwBvAG4AcwBvAGwAZQBdADoAOgBJAG4ALgBSAGUAYQBkAFQAbwBFAG4AZAAoACkAIAB8ACAATwB1AHQALQBOAHUAbABsADsAIABlAHgAaQB0ACAAMAA=; else printf '{}\\n'; if [ -z \"${ORCA_AGENT_HOOK_PORT-}\" ] || [ -z \"${ORCA_AGENT_HOOK_TOKEN-}\" ] || [ -z \"${ORCA_PANE_KEY-}\" ]; then exit 0; fi; { command -p cat 2>/dev/null || cat; } >/dev/null 2>&1 || :; fi ;; *) \"${HOME-}/.orca/agent-hooks/claude-hook.cmd\" ;; esac; else printf '{}\\n'; if [ -z \"${ORCA_AGENT_HOOK_PORT-}\" ] || [ -z \"${ORCA_AGENT_HOOK_TOKEN-}\" ] || [ -z \"${ORCA_PANE_KEY-}\" ]; then exit 0; fi; { command -p cat 2>/dev/null || cat; } >/dev/null 2>&1 || :; fi ;; *) if [ -f \"${HOME-}/.orca/agent-hooks/claude-hook.sh\" ] && [ -r \"${HOME-}/.orca/agent-hooks/claude-hook.sh\" ] && [ -x \"${HOME-}/.orca/agent-hooks/claude-hook.sh\" ]; then ORCA_HOOK_AGENT_PID=\"${PPID:-}\"; export ORCA_HOOK_AGENT_PID; /bin/sh \"${HOME-}/.orca/agent-hooks/claude-hook.sh\"; else { command -p cat 2>/dev/null || cat; } >/dev/null 2>&1 || :; printf '{}\\n'; fi ;; esac; fi",
+            "command": "bash '/home/tamnm/.claude/hooks/herdr-agent-state.sh' session",
             "timeout": 10
           }
         ]
@@ -247,12 +280,12 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "bash -c 'cols=$(stty size </dev/tty 2>/dev/null | awk '\"'\"'{print $2}'\"'\"'); export COLUMNS=$(( ${cols:-120} > 4 ? ${cols:-120} - 4 : 1 )); plugin_dir=$(ls -d \"${CLAUDE_CONFIG_DIR:-$HOME/.claude}\"/plugins/cache/*/claude-hud/*/ 2>/dev/null | awk -F/ '\"'\"'{ print $(NF-1) \"\\t\" $(0) }'\"'\"' | grep -E '\"'\"'^[0-9]+\\.[0-9]+\\.[0-9]+[[:space:]]'\"'\"' | sort -t. -k1,1n -k2,2n -k3,3n -k4,4n | tail -1 | cut -f2-); exec \"/opt/homebrew/bin/bun\" --env-file /dev/null \"${plugin_dir}src/index.ts\"'"
+    "command": "'/home/tamnm/.local/share/mise/installs/node/26.12.0/bin/node' '/home/tamnm/.claude/plugins/claude-hud/statusline.mjs'",
+    "refreshInterval": 5
   },
   "enabledPlugins": {
     "ast-grep@ast-grep-marketplace": true,
     "caveman@caveman": false,
-    "claude-code-goal@balakumar": false,
     "claude-hud@claude-hud": true,
     "codex@openai-codex": true,
     "context-mode@context-mode": true,
@@ -266,7 +299,9 @@
     "drawio@365-skills": true,
     "mattpocock-skills@claude-plugins-official": true,
     "humanizer@humanizer": true,
-    "understand-anything@understand-anything": true
+    "understand-anything@understand-anything": true,
+    "cc-plugin-you-should-know@builtin": true,
+    "impeccable@impeccable": true
   },
   "extraKnownMarketplaces": {
     "ast-grep-marketplace": {
@@ -346,11 +381,24 @@
         "source": "github",
         "repo": "mksglu/context-mode"
       }
+    },
+    "claude-plugins-official": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/claude-plugins-official"
+      }
+    },
+    "impeccable": {
+      "source": {
+        "source": "github",
+        "repo": "pbakaus/impeccable"
+      }
     }
   },
   "effortLevel": "medium",
   "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
   "theme": "dark",
   "switchModelsOnFlag": false,
   "skipAutoPermissionPrompt": true,
@@ -386,22 +434,6 @@
       "**Trusted repo**: The git repository the agent started in (~/Documents/CloudAZ) — currently has no tracked files and no configured remotes",
       "**Org-specific CLIs**: agy-delegate (18× in-project, plus documented in ~/.claude/CLAUDE.md as a delegated search/research worker CLI)",
       "routine under ~/Documents/CloudAZ/ prefix: none established — repo has zero tracked files"
-    ]
-  },
-  "permissions": {
-    "allow": [
-      "Bash(rtk *)"
-    ],
-    "ask": [
-      "Bash(* apply*)",
-      "Bash(* sudo *)",
-      "Bash(*ansible-playbook*)",
-      "Bash(*helm upgrade*)",
-      "Bash(*kubectl delete*)",
-      "Bash(*kubectl patch*)",
-      "Bash(*terragrunt run --all*)",
-      "Bash(*terragrunt run-all*)",
-      "Bash(sudo *)"
     ]
   }
 }

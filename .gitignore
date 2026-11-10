@@ -9,3 +9,9 @@ conductor
 # Claude: claude.ai-synced skills, local app bundle
 AI/skills/synced/
 AI/tools/Lesson.app/
+# Omarchy (Arch-only) skills, linked locally
+AI/skills/omarchy
+AI/skills/diagnose-crash
+AI/skills/omarchy-app
+.agents/skills/omarchy-app
+AI/skills/.trash/
