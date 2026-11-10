@@ -280,8 +280,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "'/home/tamnm/.local/share/mise/installs/node/26.12.0/bin/node' '/home/tamnm/.claude/plugins/claude-hud/statusline.mjs'",
-    "refreshInterval": 5
+    "command": "'/opt/homebrew/Cellar/bun/1.4.2/bin/bun' --env-file /dev/null '/Users/macos/.claude/plugins/claude-hud/statusline.mjs'"
   },
   "enabledPlugins": {
     "ast-grep@ast-grep-marketplace": true,
@@ -302,6 +301,10 @@
     "understand-anything@understand-anything": true,
     "cc-plugin-you-should-know@builtin": true,
     "impeccable@impeccable": true
+    "blast-radius@claude-code-playground-mods": true,
+    "savvy-progress@claude-kit": true,
+    "skins@hellosverre-mods": true,
+    "terminal-browser@terminal-browser": true
   },
   "extraKnownMarketplaces": {
     "ast-grep-marketplace": {
@@ -392,6 +395,28 @@
       "source": {
         "source": "github",
         "repo": "pbakaus/impeccable"
+    "claude-code-playground-mods": {
+      "source": {
+        "source": "directory",
+        "path": "/Users/macos/.claude/plugins/local/claude-code-playground/claude-code/mods"
+      }
+    },
+    "claude-kit": {
+      "source": {
+        "source": "github",
+        "repo": "JohnnyVizz/claude-kit"
+      }
+    },
+    "hellosverre-mods": {
+      "source": {
+        "source": "github",
+        "repo": "hellosverre/claude-skins"
+      }
+    },
+    "terminal-browser": {
+      "source": {
+        "source": "github",
+        "repo": "zenbu-labs/terminal-browser"
       }
     }
   },

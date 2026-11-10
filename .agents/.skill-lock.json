@@ -148,15 +148,6 @@
       "installedAt": "2026-06-22T02:47:15.531Z",
       "updatedAt": "2026-06-22T02:47:15.531Z"
     },
-    "orchestration": {
-      "source": "stablyai/orca",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/stablyai/orca.git",
-      "skillPath": "skills/orchestration/SKILL.md",
-      "skillFolderHash": "9aa26fde93c0592e5983cdca1ccd33b402802255",
-      "installedAt": "2026-07-15T06:25:26.411Z",
-      "updatedAt": "2026-07-27T02:30:05.281Z"
-    },
     "unlazy": {
       "source": "Leonxlnx/unlazy",
       "sourceType": "github",
@@ -172,16 +163,16 @@
   },
   "lastSelectedAgents": [
     "amp",
-    "antigravity",
-    "antigravity-cli",
     "cline",
     "codex",
     "cursor",
-    "deepagents",
+    "droid",
     "gemini-cli",
     "github-copilot",
+    "kilo",
     "kimi-code-cli",
     "opencode",
+    "pi",
     "warp",
     "zed",
     "claude-code"

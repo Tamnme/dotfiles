@@ -23,7 +23,13 @@ done
 link "$REPO/.agents" "$HOME/.agents" # skills CLI installs; ~/.claude/skills/* link here relatively
 
 command -v claude >/dev/null || { echo "claude not on PATH; skipping plugins"; exit 0; }
-{ echo anthropics/claude-plugins-official; jq -r '.extraKnownMarketplaces[].source.repo' "$AI/settings.json"; } |
+# Anthropic's sample mods (blast-radius) sit in a repo subfolder, so settings.json
+# registers that marketplace as a local directory source pointing into this clone.
+pg="$HOME/.claude/plugins/local/claude-code-playground"
+[ -d "$pg" ] || git clone -q --depth 1 https://github.com/anthropics/claude-code-playground.git "$pg"
+# Directory sources carry an absolute path; rebase /Users/<name> onto this $HOME.
+{ echo anthropics/claude-plugins-official
+  jq -r '.extraKnownMarketplaces[].source | .repo // (.path | sub("^/Users/[^/]+"; env.HOME))' "$AI/settings.json"; } |
   while read -r repo; do claude plugin marketplace add "$repo" || true; done
 jq -r '.enabledPlugins | to_entries[] | select(.value) | .key' "$AI/settings.json" |
   while read -r p; do claude plugin install "$p" || true; done

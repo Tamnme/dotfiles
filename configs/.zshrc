@@ -8,6 +8,8 @@ eval "$(starship init zsh)"
 export STARSHIP_CONFIG=~/.config/starship.toml
 
 plugins=(aws terraform git kubectl)
+# Keep the aws plugin's helpers but not its right-prompt segment
+SHOW_AWS_PROMPT=false
 
 source $ZSH/oh-my-zsh.sh
 
@@ -45,3 +47,8 @@ bindkey '^I' complete-word
 # Make completion work with kubecolor
 compdef kubecolor=kubectl
 compdef terragrunt=terraform
+
+
+# Added by Antigravity CLI installer
+export PATH="/Users/macos/.local/bin:$PATH"
+export PATH="/Users/macos/.local/bin:$PATH"

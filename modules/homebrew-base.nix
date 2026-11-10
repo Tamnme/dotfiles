@@ -5,18 +5,15 @@
     user = currentUser;
 
     taps = [
-      "spinframework/tap"
-      "FelixKratz/formulae"	# borders
-      "hashicorp/tap"
       "hidetatz/tap"   		# kubecolor
-      "MadAppGang/tap" 		# Claudish
       "oven-sh/bun"       # tap
+      "weaveworks/tap"
       "abue-ammar/tinycast"
     ];
 
     brews = [
       # Languages
-      "python"
+      #"python"
       "rustup"
       "pipx"
       "go"
@@ -48,7 +45,6 @@
       "bat"
       "fd"
       "ripgrep"
-      "borders"
       "neovim"
       "jq"
       "yq"
@@ -64,7 +60,7 @@
       "sops"
       "devcontainer"
       "pandoc"
-      "openvpn"
+      #"openvpn"
       "docker-slim"
       "shellcheck"
       "bats-core"
@@ -76,7 +72,7 @@
       "aiac"
       "hashicorp/tap/packer"
       "opentofu"
-      "hashicorp/tap/terraform"
+      #"hashicorp/tap/terraform"
       "terragrunt"
       "helm"
       "podman"
@@ -100,7 +96,6 @@
       #"argocd"
       "awscli"
       "aws-sam-cli"
-      "spinframework/tap/spin"
       "hl"
       "stern"
       "oras"
@@ -108,11 +103,9 @@
       "kubeconform"
 
       # AI
-      "claudish"
       "claude-code-router"
       "rtk"
       "agent-browser"
-      #"pi-coding-agent"
 
       # Learning
       "exercism"
@@ -124,29 +117,18 @@
       "codex"
 
       # Apps
-      #"antigravity-cli"
+      "terminal-browser"
+      "gcloud-cli"
       #"tinycast"
-      "openinterminal"
       "flowvision"
-      "hot"
-      "only-switch"
-      "pearcleaner"
+      #"hot"
       "music-decoy"
-      "iina"
-      "middledrag"
+      #"iina"
       "xkey"
       "loop"
 
       # Dev tools
       #"orbstack"
-      "ghostty@tip"
-      # ponytail: upstream cask break — tunnelblick 8.0.3's API def uses an
-      # `uninstall_preflight_steps`/`set_ownership` artifact that no released
-      # Homebrew (5.x/6.x/HEAD) can parse, so `brew bundle` aborts. Installed
-      # v8.0 stays put (brew can't parse it to uninstall either). Uncomment once
-      # the cask is fixed upstream. https://github.com/Homebrew/homebrew-cask
-      #"tunnelblick"
-      "warp"
       "aws-vault-binary"
       "secretive"
       "zed"

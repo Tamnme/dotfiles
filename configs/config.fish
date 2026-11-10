@@ -98,8 +98,12 @@ scheme set catppuccin
 source ~/.orbstack/shell/init2.fish 2>/dev/null || :
 
 # Created by `pipx` on 2026-05-28 01:59:09
-fish_add_path -g ~/.local/bin
+fish_add_path -g $HOME/.local/bin
 
-for b in /opt/homebrew/bin/brew /home/linuxbrew/.linuxbrew/bin/brew
-    test -x $b; and $b shellenv fish | source; and set -gx SHELL (path dirname $b)/fish
-end
+eval (/opt/homebrew/bin/brew shellenv fish)
+fish_add_path -g $HOME/go/bin  # ghq, direnv: go-installed, no brew bottles for macOS 27
+command -q direnv; and direnv hook fish | source
+
+
+# Added by Antigravity CLI installer
+set -gx PATH "/Users/macos/.local/bin" $PATH
