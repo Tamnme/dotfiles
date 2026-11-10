@@ -16,11 +16,6 @@ This is the fix for serial context burn: multi-symptom sessions have repeatedly 
 context mid-investigation with most tasks unfinished. Anything outside this carve-out —
 mutations, single-symptom work, implementation — still needs an explicit request.
 
-> Note: a stricter "do not call the AgentTool unless the user requested it" is injected by
-> Orca (`~/.orca/agent-hooks/claude-hook.sh`) inside Orca worktrees, not by this file. The
-> carve-out above is deliberate and user-approved; if the two conflict in an Orca session,
-> that is Orca's rule to relax, not a reason to re-litigate this one each time.
-
 Pick the cheapest model that can do the subtask well:
 - Haiku: bulk mechanical work, no judgment
 - Sonnet: scoped research, code exploration, in-scope synthesis
