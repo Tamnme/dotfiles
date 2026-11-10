@@ -15,3 +15,4 @@ AI/skills/diagnose-crash
 AI/skills/omarchy-app
 .agents/skills/omarchy-app
 AI/skills/.trash/
+AI/hooks/herdr-agent-state.sh
