@@ -1,0 +1,13 @@
+// Zed keymap. The terminal runs zellij; pass through the ctrl keys Zed's
+// Linux defaults steal from it (b/c/e/o/q/w/r already pass through upstream).
+[
+  {
+    "context": "Terminal",
+    "bindings": {
+      "ctrl-p": ["terminal::SendKeystroke", "ctrl-p"],
+      "ctrl-n": ["terminal::SendKeystroke", "ctrl-n"],
+      "ctrl-t": ["terminal::SendKeystroke", "ctrl-t"],
+      "ctrl-s": ["terminal::SendKeystroke", "ctrl-s"]
+    }
+  }
+]

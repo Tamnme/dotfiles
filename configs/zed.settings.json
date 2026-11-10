@@ -19,7 +19,7 @@
         "program": "/bin/sh",
         "args": [
           "-c",
-          "exec /opt/homebrew/bin/zellij attach -c \"$(basename \"$(dirname \"$PWD\")\")-$(basename \"$PWD\")\"",
+          "SHELL=$(command -v fish) exec zellij attach -c \"$(basename \"$(dirname \"$PWD\")\")-$(basename \"$PWD\")\"",
         ],
       },
     },

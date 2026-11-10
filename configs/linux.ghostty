@@ -1,0 +1,5 @@
+# Linux (Omarchy) layer: included from ~/.config/ghostty/config, which Omarchy owns.
+# config.ghostty is the macOS file. Absolute path: Hyprland's session PATH lacks linuxbrew.
+command = /home/linuxbrew/.linuxbrew/bin/zellij attach -c ghostty
+# zellij opens $SHELL; pin fish even when the session predates chsh.
+env = SHELL=/home/linuxbrew/.linuxbrew/bin/fish

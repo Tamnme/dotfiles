@@ -1,4 +1,3 @@
-set -gx SHELL /opt/homebrew/bin/fish
 
 ##-------- Nix / nix-darwin PATH
 # nix-darwin installs darwin-rebuild under /run/current-system/sw/bin.

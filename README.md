@@ -136,6 +136,15 @@ ln -sf "$PWD/configs/config.ghostty" "$GHOSTTY_DIR/config.ghostty"
 ```
 Reload Ghostty (`⌘ + Shift + ,`) to pick up changes.
 
+### Linux (Omarchy)
+`brew install fish zellij`, then link fish as in Fish Shell Setup step 5 (plus `configs/fish/fish_plugins`) and run Fisher steps 2–3. `chsh` needs `/home/linuxbrew/.linuxbrew/bin/fish` in `/etc/shells`.
+```bash
+ln -sfn "$PWD/configs/zed.settings.json" ~/.config/zed/settings.json
+ln -sfn "$PWD/configs/zed.keymap.json" ~/.config/zed/keymap.json
+# Omarchy owns ~/.config/ghostty/config (theme, font); layer ours on top:
+echo 'config-file = ~/Documents/dotfiles/configs/linux.ghostty' >> ~/.config/ghostty/config
+```
+
 ### Zellij Setup
 Symlink the Zellij config so this repo is the source of truth:
 ```bash
